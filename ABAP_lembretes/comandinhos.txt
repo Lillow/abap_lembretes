@@ -1,2 +1,0 @@
-/o trabsação 	- 	abrir transação em outra janela
-/n 		- 	debugar
