@@ -1,0 +1,7 @@
+pacote padrão: ZACADEMIA_OUT_24
+responsável: ABAP06
+
+ordem: SXTK900078
+
+login: ABAP06
+senha: 8BF@wdexq3
