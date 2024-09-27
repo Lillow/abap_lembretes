@@ -1,0 +1,6 @@
+COLUNA			DOMINIO		COMPIMENTO	DESCRIÇÂO
+
+mandt			clnt		    3		A coluna 'mandante' sempre deverá ser criada
+moeda			cuky
+data			dates
+hora			tims
