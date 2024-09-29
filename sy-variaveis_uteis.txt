@@ -1,0 +1,15 @@
+SY-DATUM: Fornece a data atual do sistema. Aqui estão os detalhes principais sobre ela
+SY-DATLO: Data do sistema no formato "AAAA-MM-DD".
+SY-TIMLO: Hora do sistema no formato "HH:MM
+SY-UNAME: Nome do usuário logado no sistema.
+SY-MANDT: Número do cliente atual.
+SY-LANGU: Idioma atual do usuário.
+SY-SUBRC: Código de retorno da última operação (0 se bem-sucedido).
+SY-INDEX: Índice atual em loops, como em LOOP AT ... ENDLOOP.
+SY-REPID: Nome do programa de relatório em execução.
+SY-DBCNT: Contador de registros retornados por uma seleção (útil em consultas).
+SY-PFKEY: Tecla de função pressionada pelo usuário.
+SY-STEPL: Passo atual em uma estrutura de controle (como em CALL FUNCTION).
+SY-TCODE: Código da transação atualmente em execução.
+SY-LOOPC: Contador de registros durante a execução de loops.
+SY-FDPOS: É usada para indicar a posição do cursor em um campo de entrada em uma tela.
