@@ -3,116 +3,95 @@ CONCATENATE:
     Descrição: Une várias strings em uma única string.
     Exemplo:
 
-    
+        DATA: lv_string1 TYPE string VALUE 'Olá, ',
+            lv_string2 TYPE string VALUE 'mundo!',
+            lv_result  TYPE string.
+        CONCATENATE lv_string1 lv_string2 INTO lv_result.
 
-    DATA: lv_string1 TYPE string VALUE 'Olá, ',
-          lv_string2 TYPE string VALUE 'mundo!',
-          lv_result  TYPE string.
-    CONCATENATE lv_string1 lv_string2 INTO lv_result.
+*****************************************************************************************************************************************************
 
 SPLIT:
 
     Descrição: Divide uma string em partes, usando um delimitador.
     Exemplo:
 
-    
+        DATA: lv_string TYPE string VALUE 'SAP,,Programação',
+            lt_parts  TYPE TABLE OF string.
+        SPLIT lv_string AT ',' INTO TABLE lt_parts.
 
-    DATA: lv_string TYPE string VALUE 'SAP,,Programação',
-          lt_parts  TYPE TABLE OF string.
-    SPLIT lv_string AT ',' INTO TABLE lt_parts.
+*****************************************************************************************************************************************************
 
 REPLACE:
 
     Descrição: Substitui partes de uma string por outra string.
     Exemplo:
 
-    
+        DATA: lv_text TYPE string VALUE 'Olá, SAP!'.
+        REPLACE 'SAP' WITH '' IN lv_text.
 
-    DATA: lv_text TYPE string VALUE 'Olá, SAP!'.
-    REPLACE 'SAP' WITH '' IN lv_text.
+*****************************************************************************************************************************************************
 
 CONDENSE:
 
     Descrição: Remove espaços em branco extras de uma string.
     Exemplo:
 
-    
+        DATA: lv_text TYPE string VALUE '  Olá,  mundo!  '.
+        CONDENSE lv_text.
 
-    DATA: lv_text TYPE string VALUE '  Olá,  mundo!  '.
-    CONDENSE lv_text.
+*****************************************************************************************************************************************************
 
 TRANSLATE:
 
     Descrição: Converte caracteres de uma string para letras maiúsculas ou minúsculas.
     Exemplo:
 
-    
+        DATA: lv_text TYPE string VALUE 'Olá, Mundo!'.
+        TRANSLATE lv_text TO UPPER CASE.
 
-    DATA: lv_text TYPE string VALUE 'Olá, Mundo!'.
-    TRANSLATE lv_text TO UPPER CASE.
+*****************************************************************************************************************************************************
 
 CALL FUNCTION:
 
     Descrição: Chama uma função externa definida no sistema.
     Exemplo:
 
-    
+        CALL FUNCTION 'RFC_PING'
+        DESTINATION 'SAP_ABC'.
 
-    CALL FUNCTION 'RFC_PING'
-      DESTINATION 'SAP_ABC'.
+*****************************************************************************************************************************************************
 
 READ TABLE:
 
     Descrição: Lê uma linha de uma tabela interna com base em uma condição.
     Exemplo:
 
-    
+        DATA: lt_table TYPE TABLE OF string,
+            lv_value TYPE string.
+        READ TABLE lt_table INTO lv_value INDEX 1.
 
-    DATA: lt_table TYPE TABLE OF string,
-          lv_value TYPE string.
-    READ TABLE lt_table INTO lv_value INDEX 1.
-
-LOOP AT:
-
-    Descrição: Itera sobre uma tabela interna.
-    Exemplo:
-
-    
-
-    LOOP AT lt_table INTO DATA(lv_entry).
-      WRITE: / lv_entry.
-    ENDLOOP.
-
-IF / ELSEIF / ELSE:
-
-    Descrição: Estruturas condicionais para controle de fluxo.
-    Exemplo:
-
-    
-
-    IF lv_value = 'X'.
-      WRITE: 'Valor é X'.
-    ELSE.
-      WRITE: 'Valor não é X'.
-    ENDIF.
+*****************************************************************************************************************************************************
 
 SUBSTRING:
 
     Descrição: Extrai uma parte de uma string.
-    Exemplo:	DATA: lv_string TYPE string VALUE ' Programming'.
+    Exemplo:	
+    
+        DATA: lv_string TYPE string VALUE ' Programming'.
 		DATA: lv_substring TYPE string.
 		lv_substring = lv_string+5(11). " Extrai 'Programming'
+
+*****************************************************************************************************************************************************
 
 STRLEN:
 
     Descrição: é utilizada para calcular o comprimento de uma string. Ela retorna o número de caracteres na string especificada, incluindo espaços.
     Exemplo:
 
-	DATA: lv_string TYPE string VALUE 'Olá, ABAP!',
-      		lv_length TYPE i.
+        DATA: lv_string TYPE string VALUE 'Olá, ABAP!',
+                lv_length TYPE i.
 
-	lv_length = STRLEN( lv_string ).
+        lv_length = STRLEN( lv_string ).
 
-	WRITE: / 'A string é:', lv_string,
-       		/ 'O comprimento da string é:', lv_length.
-``
+        WRITE: / 'A string é:', lv_string,
+                / 'O comprimento da string é:', lv_length.
