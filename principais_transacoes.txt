@@ -2,6 +2,8 @@ Algumas das principais transações:
 
 SE38 - Executar programas ABAP -> 	Usada para criar, modificar ou executar programas e includes.
 
+SE93 - gerenciar códigos de transação -> Usada para criar, alterar e excluir transação, além de associar essas transações a programas ou funções específicas.
+
 SE80 - Object Navigator -> 		Um ambiente integrado para desenvolvimento de objetos ABAP, como programas, classes, funções e tabelas.
 
 SE11 - Dicionário de Dados -> 		Usada para criar e modificar tabelas, views, domínios e elementos de dados.
