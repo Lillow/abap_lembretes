@@ -1,0 +1,3 @@
+TABLES t001.
+
+SELECT-OPTIONS: s_bukrs FOR t001-bukrs OBLIGATORY.
