@@ -19,3 +19,5 @@ SE78 - Carregar Objetos -> 		Para carregar arquivos de mídia e outros objetos n
 SE41 - Menus -> 			Para criar e modificar menus SAP.
 
 SE16N - Visualização de Tabelas ->	Uma transação moderna para visualizar e manipular dados em tabelas, permitindo a consulta e a análise de dados de forma mais eficiente.
+
+SE91 - Classe de Mensagens -> Para uma melhor organização das mensagens
