@@ -1,0 +1,95 @@
+Eventos em Relatórios ABAP
+
+    START-OF-SELECTION:
+        Este é o evento mais comum e é executado quando a seleção de dados deve ser iniciada.
+        É onde você geralmente coloca a lógica principal do seu relatório.
+
+    abap
+
+START-OF-SELECTION.
+  " Lógica principal do relatório
+
+INITIALIZATION:
+
+    Executado antes de qualquer seleção de dados.
+    Útil para definir valores padrão em parâmetros e selecionar opções.
+
+abap
+
+INITIALIZATION.
+  " Definindo valores padrão para parâmetros
+  p_param1 = 'valor'.
+
+AT SELECTION-SCREEN:
+
+    Este evento é chamado sempre que a tela de seleção é processada, permitindo validações de entrada.
+    Você pode usar para exibir mensagens de erro se a entrada do usuário for inválida.
+
+abap
+
+AT SELECTION-SCREEN.
+  IF p_param1 IS INITIAL.
+    MESSAGE 'Parâmetro não pode estar vazio' TYPE 'E'.
+  ENDIF.
+
+END-OF-SELECTION:
+
+    Este evento é chamado após a execução do START-OF-SELECTION.
+    Geralmente usado para processar e exibir resultados finais.
+
+abap
+
+END-OF-SELECTION.
+  " Exibindo resultados ou realizando a finalização
+
+TOP-OF-PAGE:
+
+    Executado no início de cada página da saída do relatório.
+    Usado para exibir cabeçalhos de coluna e informações sobre a página.
+
+abap
+
+TOP-OF-PAGE.
+  WRITE: / 'Cabeçalho do Relatório'.
+
+END-OF-PAGE:
+
+    Executado no final de cada página da saída do relatório.
+    Pode ser usado para exibir rodapés ou informações adicionais.
+
+abap
+
+    END-OF-PAGE.
+      WRITE: / 'Fim da página'.
+
+Exemplo de Relatório com Eventos
+
+Aqui está um exemplo simples de um relatório utilizando alguns desses eventos:
+
+abap
+
+REPORT zexemplo_eventos.
+
+PARAMETERS: p_vbeln TYPE vbeln.
+
+INITIALIZATION.
+  p_vbeln = '0000000001'. " Valor padrão
+
+AT SELECTION-SCREEN.
+  IF p_vbeln IS INITIAL.
+    MESSAGE 'Por favor, insira um número de venda' TYPE 'E'.
+  ENDIF.
+
+START-OF-SELECTION.
+  " Lógica para processar dados de vendas
+  WRITE: / 'Processando vendas para:', p_vbeln.
+
+END-OF-SELECTION.
+  WRITE: / 'Relatório concluído.'.
+
+TOP-OF-PAGE.
+  WRITE: / 'Cabeçalho do Relatório - Vendas'.
+
+Conclusão
+
+Os eventos em relatórios ABAP ajudam a estruturar o código de maneira clara e lógica, permitindo um controle eficiente sobre o fluxo do programa.
