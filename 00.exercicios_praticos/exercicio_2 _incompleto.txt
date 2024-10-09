@@ -1,0 +1,230 @@
+*&---------------------------------------------------------------------*
+*& Include          ZR40_PRATICA2_TOP
+*&---------------------------------------------------------------------*
+TABLES: vbak,
+        vbap,
+        prcd_elements.
+
+TYPES: BEGIN OF ty_inner_vbak_vbap,
+         vbeln     TYPE vbeln,
+         auart     TYPE auart,
+         posnr     TYPE posnr_va,
+         matnr     TYPE matnr,
+         arktx     TYPE arktx,
+         kwmeng    TYPE kwmeng,
+         vrkme     TYPE vrkme,
+         knumv_ana TYPE knumv,
+       END OF ty_inner_vbak_vbap,
+
+       BEGIN OF ty_prcd,
+         knumv TYPE knumv,
+         kposn TYPE kposn,
+         kawrt TYPE vfprc_element_base_value,
+         kbetr TYPE vfprc_element_amount,
+         waers TYPE waers,
+       END OF ty_prcd,
+
+       BEGIN OF ty_saida,
+         mandt     TYPE mandt,
+         vbeln     TYPE vbeln,
+         posnr     TYPE posnr_va,
+         auart     TYPE auart,
+         matnr     TYPE matnr,
+         arktx     TYPE arktx,
+         kwmeng    TYPE kwmeng,
+         vrkme     TYPE vrkme,
+         knumv_ana TYPE knumv,
+         kposn     TYPE kposn,
+         kawrt     TYPE vfprc_element_base_value,
+         kbetr     TYPE vfprc_element_amount,
+         waers     TYPE waers,
+       END OF ty_saida.
+
+*----------------------------------------------------------------------*
+* Tabelas Internas
+*----------------------------------------------------------------------*
+DATA: t_vbak_vbap TYPE TABLE OF ty_inner_vbak_vbap,
+      t_prcd      TYPE TABLE OF ty_prcd,
+      t_saida     TYPE TABLE OF ty_saida.
+
+*&---------------------------------------------------------------------*
+*& Include          ZR40_PRATICA2_SEL
+*&---------------------------------------------------------------------*
+
+INITIALIZATION.
+
+*----------------------------------------------------------------------*
+*                      Parâmetro da Tela de Seleção
+*----------------------------------------------------------------------*
+  SELECTION-SCREEN BEGIN OF BLOCK a1 WITH FRAME TITLE TEXT-001.
+
+    SELECT-OPTIONS: s_auart FOR vbak-auart OBLIGATORY,          " Tipo do documento de vendas
+                    s_kschl FOR prcd_elements-kschl DEFAULT 'ZPB0' OBLIGATORY. " Tipo de condição de preços
+
+  SELECTION-SCREEN END OF BLOCK a1.
+
+*----------------------------------------------------------------------*
+*                      AT SELECTION-SCREEN
+*----------------------------------------------------------------------*
+AT SELECTION-SCREEN.
+
+*----------------------------------------------------------------------*
+* Include          ZR40_PRATICA2_F01
+*----------------------------------------------------------------------*
+
+*&---------------------------------------------------------------------*
+*& Form f_selecionar_dados
+*&---------------------------------------------------------------------*
+*& Selecionar as informações que serão apresentadas no ALV de saída
+*&---------------------------------------------------------------------*
+FORM f_selecionar_dados .
+
+* Seleção dos Dados da VBAK e VBAP
+  SELECT k~vbeln
+         k~auart
+         p~posnr
+         p~matnr
+         p~arktx
+         p~kwmeng
+         p~vrkme
+         p~knumv_ana
+    FROM vbak AS k
+    INNER JOIN vbap AS p
+    ON k~vbeln = p~vbeln
+    INTO TABLE t_vbak_vbap
+    WHERE k~auart IN s_auart.
+
+  IF sy-subrc IS INITIAL.
+    SORT t_vbak_vbap BY vbeln.
+  ENDIF.
+
+  IF t_vbak_vbap IS NOT INITIAL.
+* Seleção das condições de preço
+    SELECT knumv
+           kposn
+           kawrt
+           kbetr
+           waers
+     FROM prcd_elements
+      INTO TABLE t_prcd
+      FOR ALL ENTRIES IN t_vbak_vbap
+      WHERE knumv = t_vbak_vbap-knumv_ana
+        AND kposn = t_vbak_vbap-posnr
+        AND kschl = s_kschl.
+    IF sy-subrc IS INITIAL.
+      SORT t_prcd BY knumv kposn.
+    ENDIF.
+
+  ENDIF.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form f_manipular_dados
+*&---------------------------------------------------------------------*
+*& Criar a tabela interna que será exibida na saída do relatório
+*&---------------------------------------------------------------------*
+FORM f_manipular_dados .
+
+  DATA: wa_vbak_vbap TYPE ty_inner_vbak_vbap,
+        wa_prcd      TYPE ty_prcd,
+        wa_saida     TYPE ty_saida.
+
+  LOOP AT t_vbak_vbap INTO wa_vbak_vbap.
+    READ TABLE t_prcd INTO wa_prcd WITH KEY knumv = wa_vbak_vbap-knumv_ana
+                                            kposn = wa_vbak_vbap-posnr
+                                   BINARY SEARCH.
+    IF sy-subrc IS INITIAL.
+      wa_saida-vbeln = wa_vbak_vbap-vbeln.
+      wa_saida-auart = wa_vbak_vbap-auart.
+      wa_saida-posnr = wa_vbak_vbap-posnr.
+      wa_saida-matnr = wa_vbak_vbap-matnr.
+      wa_saida-arktx = wa_vbak_vbap-arktx.
+      wa_saida-kwmeng = wa_vbak_vbap-kwmeng.
+      wa_saida-vrkme = wa_vbak_vbap-vrkme.
+
+      " Conversão para o campo de condição de preço
+      CALL FUNCTION 'CONVERSION_EXIT_ALPHA_OUTPUT'
+        EXPORTING
+          input  = wa_vbak_vbap-knumv_ana
+        IMPORTING
+          output = wa_saida-knumv_ana.
+
+      wa_saida-kposn = wa_prcd-kposn.
+      wa_saida-kawrt = wa_prcd-kawrt.
+      wa_saida-kbetr = wa_prcd-kbetr.
+      wa_saida-waers = wa_prcd-waers.
+
+      APPEND wa_saida TO t_saida.
+      CLEAR wa_saida.
+
+    ENDIF.
+  ENDLOOP.
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Form f_saida
+*&---------------------------------------------------------------------*
+*& Geração da lista de saída usando ALV
+*&---------------------------------------------------------------------*
+FORM f_saida .
+
+  DATA: mo_salv_table TYPE REF TO cl_salv_table,
+        mo_functions  TYPE REF TO cl_salv_functions_list,
+        mo_display    TYPE REF TO cl_salv_display_settings,
+        mo_columns    TYPE REF TO cl_salv_columns_table,
+        mo_column     TYPE REF TO cl_salv_column_table.
+
+  CALL METHOD cl_salv_table=>factory
+    EXPORTING
+      list_display = if_salv_c_bool_sap=>false
+    IMPORTING
+      r_salv_table = mo_salv_table
+    CHANGING
+      t_table      = t_saida.
+
+  " Ativando botões de função
+  mo_functions = mo_salv_table->get_functions( ).
+  mo_functions->set_all( abap_true ).
+
+  " Ativando o estilo Zebra
+  mo_display = mo_salv_table->get_display_settings( ).
+  mo_display->set_striped_pattern( cl_salv_display_settings=>true ).
+
+  " Otimizar a largura das colunas
+  mo_columns = mo_salv_table->get_columns( ).
+  mo_columns->set_optimize( abap_true ).
+
+  " Ocultando coluna MANDT
+  mo_column ?= mo_columns->get_column( columnname = 'MANDT' ).
+  mo_column->set_visible( value  = abap_false ).
+
+  mo_salv_table->display( ).
+
+ENDFORM.
+
+*&---------------------------------------------------------------------*
+*& Report ZR40_PRATICA2
+*&---------------------------------------------------------------------*
+*& Relatório de vendas com a utilização das tabelas VBAK, VBAP e PRCD_ELEMENTS
+*&---------------------------------------------------------------------*
+REPORT ZR40_PRATICA2 MESSAGE-ID v1.
+
+INCLUDE: zr40_pratica2_top,      " Declaração de dados globais
+         zr40_pratica2_sel,      " Tela de Seleção e eventos de tela
+         zr40_pratica2_F01.      " Sub-rotinas
+
+START-OF-SELECTION.
+
+  PERFORM f_selecionar_dados.
+
+  PERFORM f_manipular_dados.
+
+  IF t_saida IS INITIAL.
+    MESSAGE e000.
+  ELSE.
+    PERFORM f_saida.
+  ENDIF.
+
+END-OF-SELECTION.
