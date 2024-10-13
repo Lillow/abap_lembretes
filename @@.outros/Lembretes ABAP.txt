@@ -1,0 +1,29 @@
+Lembretes ABAP
+
+declarações de dados globais e locais:
+- work área
+- tabelas internas
+
+
+
+entrada de dados:
+- paramiters
+- select options
+	radio bootons
+	check box
+
+
+lógica e regras de negócio:
+- eventos
+- loop
+- if elif else
+- form
+
+saída de dados:
+- ALV
+- write
+- cl_demo_output=>display( ti_tabela ) * Printar tabela interna
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+POO

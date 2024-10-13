@@ -1,0 +1,69 @@
+*&---------------------------------------------------------------------*
+*& Report ZARAUJO_PERFORMS
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zaraujo_performs.
+
+"Variáveis Globais
+*DATA: v_
+DATA: gt_material TYPE TABLE OF mara.
+
+
+"Antes do START-OF-SELECTION -> Tudo que é tela
+PARAMETERS: p_mate TYPE mara-matnr.
+
+
+START-OF-SELECTION.
+
+  "Variáveis locais
+
+  "Código principal
+  PERFORM f_selecao TABLES gt_material.
+
+  PERFORM f_manipula_dados.
+
+  PERFORM f_exibe.
+
+
+
+*&---------------------------------------------------------------------*
+*& Form f_selecao
+*&---------------------------------------------------------------------*
+*& Este é o perform que vai fazer as seleções
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_selecao "using    i_entrada type mara-matnr
+               "CHANGING o_parametro type mara-matnr
+               TABLES t_selecao STRUCTURE mara.
+
+  SELECT *
+    FROM mara
+    INTO TABLE t_selecao
+    WHERE matnr = p_mate.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form f_manipula_dados
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_manipula_dados .
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form f_exibe
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_exibe .
+
+ENDFORM.

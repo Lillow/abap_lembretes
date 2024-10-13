@@ -1,0 +1,26 @@
+*&---------------------------------------------------------------------*
+*& Report ZARAUJO_CLASSE
+*&---------------------------------------------------------------------*
+*&
+*&---------------------------------------------------------------------*
+REPORT zaraujo_classe.
+
+
+"Variáveis Globais
+DATA: gt_material TYPE mara_tt.
+
+
+"Antes do START-OF-SELECTION -> Tudo que é tela
+PARAMETERS: p_mate TYPE mara-matnr.
+
+
+START-OF-SELECTION.
+
+  DATA: io_classe TYPE REF TO zcl_araujo_performs.
+
+  CREATE OBJECT io_classe.
+
+  call METHOD io_classe->M_EXECUTAR( EXPORTING i_material = p_mate
+                                     IMPORTING C_SELECAO = gt_material ).
+
+  message s000(00).

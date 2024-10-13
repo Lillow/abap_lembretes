@@ -1,0 +1,2 @@
+/o  	- 	abrir outra janela
+/n 		- 	debugar

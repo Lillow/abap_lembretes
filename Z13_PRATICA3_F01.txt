@@ -1,0 +1,91 @@
+&---------------------------------------------------------------------*
+*& Include          Z13_PRATICA3_F01
+*&---------------------------------------------------------------------*
+*&---------------------------------------------------------------------*
+*& Form f_main
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_main .
+
+  PERFORM f_selecionar_dados.
+
+
+  PERFORM f_manipular_dados.
+
+
+  PERFORM f_saida.
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form f_selecionar_dados
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_selecionar_dados .
+
+ SELECT matnr
+        werks
+        from marc
+        into table t_marc
+        WHERE werks in s_werks.
+
+ if t_marc is not INITIAL.
+   sort t_marc by matnr werks.
+   SELECT matnr
+          mtart
+          ersda
+          from mara
+          INTO TABLE t_mara
+          FOR ALL ENTRIES IN t_marc
+          WHERE matnr = t_marc-matnr.
+ ENDIF.
+
+ IF t_mara is NOT INITIAL.
+   sort t_mara by matnr.
+   SELECT matnr
+          spras
+          maktx
+          from makt
+          INTO TABLE t_makt
+          FOR ALL ENTRIES IN t_mara
+          WHERE matnr = t_mara-matnr.
+
+ ENDIF.
+
+ IF t_makt is NOT INITIAL.
+   sort t_makt by matnr spras.
+
+ ENDIF.
+
+
+ENDFORM.
+*&---------------------------------------------------------------------*
+*& Form f_manipular_dados
+*&---------------------------------------------------------------------*
+*& text
+*&---------------------------------------------------------------------*
+*& -->  p1        text
+*& <--  p2        text
+*&---------------------------------------------------------------------*
+FORM f_manipular_dados .
+
+data : wa_mara type ty_mara,
+       wa_marc type ty_marc,
+       wa_makt type ty_makt,
+       wa_saida type ty_saida.
+
+LOOP AT t_mara INTO wa_mara.
+
+  READ TABLE t_marc  with key
+  matnr = wa_mara-matnr
+  TRANSPORTING NO FIELDS
+  BINARY SEARCH.
+  IF sy-subrc = 0.
+    LOOP AT t_marc INTO wa_marc FROM sy-tabix.
