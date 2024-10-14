@@ -1,0 +1,11 @@
+Classe de mensagem
+Criar a classe de mensagens (ZMXX_CASE) e as seguintes mensagens.
+
+000	*Início do processamento					Mensagem informando que o processamento começou.
+001	*Fim do processamento						Mensagem informando que o processamento foi concluído.
+002	Arquivo lido com sucesso					Indica que o arquivo foi lido sem erros.
+003	Erro ao ler arquivo						Mensagem de erro indicando que houve um problema na leitura do arquivo.
+004	Não existem itens para identificar &				Mensagem informando que não há itens disponíveis para o identificador fornecido.
+005	Não existem preços para o identificador &			Mensagem informando que não há preços disponíveis para o identificador fornecido.
+006	Não existem parceiros para o identificador &			Mensagem informando que não há parceiros cadastrados para o identificador fornecido.
+007	Não existem ordens de vendas aptas para o processamento		Mensagem indicando que não há ordens de venda que podem ser processadas.

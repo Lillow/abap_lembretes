@@ -1,0 +1,13 @@
+Report de Log 
+
+Criar um programa para apresentar todas as Ordens de vendas criadas de acordo com os parâmetros da tela de seleção.
+
+Nome do Programa  ZRXX_LOG_SALESTOP
+Descrição		Tipo de Dado		Valor Padrão	Obrig?		Tipo de Seleção		Nome Técnico	Ajuda de Busca
+Data de criação		ERDAT			N/A		Sim		SELECT-OPTIONS		SO_ERDAT	Sim
+Pedido Externo		ZEEXT_PEDIDO		N/A		Sim		SELECT-OPTIONS		SO_PED
+
+
+
+Selecionar todos os registros da tabela transparente - ZTLOG_EXECUTION de acordo com os parâmetros da tela de seleção.
+O relatório será exibido no formato ALV – OO e o layout de saída do relatório será com todas as colunas da tabela transparente com exceção do campo MANDT.

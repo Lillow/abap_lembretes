@@ -1,0 +1,81 @@
+Processamento do programa
+
+Ao executar o programa, o primeiro passo será registrar o início da execução utilizando a função: “BAL_LOG_CREATE” de forma que seja gerado o código do log (Log handle). Esse código será usado até o final da execução do programa.
+Para a função BAL_LOG_CREATE, usaremos os seguintes parâmetros: 
+I_S_LOG(Parâmetro de Exporting)
+OBJECT
+Valor fixo: ZACADEMIA
+SUBOBJECT
+Valor fixo: OUT24
+EXTNUMBER
+Variável de sistema: SY-CPROG
+ALDATE
+Variável de sistema: SY-DATUM
+ALTIME
+Variável de sistema: SY-UZEIT
+ALUSER
+Variável de sistema: SY-UNAME
+ALPROG
+Variável de sistema: SY-REPID
+ALTCODE
+Variável de sistema: SY-TCODE
+
+E_LOG_HANDLE(Parâmetro de Importing)
+Armazenar o retorno da função em uma variável global
+
+
+A partir do momento em que tivemos a variável global do “E_LOG_HANDLE” (gerado pela função anterior), usaremos a função “BAL_LOG_MSG_ADD” para registrar que iniciamos a execução da interface.
+Para usar a função BAL_LOG_MSG_ADD, usaremos os seguintes parâmetros:
+I_LOG_HANDLE(Parâmetro de Exporting)
+Usar a variável global criada do “E_LOG_HANDLE”
+I_S_MSG(Parâmetro de Importing)
+MSGTY
+Valor fixo: S 
+MSGID
+ZMXX_CASE
+MSGNO
+Valor fixo: 000
+
+O próximo passo será ler o arquivo informado na tela de seleção usando a função “GUI_UPLOAD”. 
+
+Se a função “GUI_UPLOAD” foi executada com sucesso, devemos chamar a função BAL_LOG_MSG_ADD, com os seguintes parâmetros e continuar o processamento: 
+I_LOG_HANDLE(Parâmetro de Exporting)
+Usar a variável global criada do “E_LOG_HANDLE”
+I_S_MSG(Parâmetro de Importing)
+MSGTY
+Valor fixo: S 
+MSGID
+ZMXX_CASE
+MSGNO
+Valor fixo: 002
+
+
+
+Se ocorreu algum erro na leitura do arquivo, tomaremos 3 ações:
+Chamar a função BAL_LOG_MSG_ADD, com os parâmetros abaixo;
+I_LOG_HANDLE(Parâmetro de Exporting)
+Usar a variável global criada do “E_LOG_HANDLE”
+I_S_MSG(Parâmetro de Importing)
+MSGTY
+Valor fixo: S 
+MSGID
+ZMXX_CASE
+MSGNO
+Valor fixo: 003
+Apresentar a mensagem de erro - 003 para o usuário
+Finalizar a execução do programa 
+
+Com a tabela interna obtida no retorno da função “GUI_UPLOAD”, teremos que distribuir o conteúdo em 4 tabelas internas (Layout do arquivo): Cabeçalho, Item, Preços e Parceiro usando a seguinte regra: 
+
+Se o identificador for:
+‘H’ – indica que é a linha de cabeçalho da Ordem de Vendas
+H;0001;ORB;BR10;10;10;90010
+
+‘I’ – Itens da Ordem de Vendas;
+		I;0001;10;2;1.000;ST;BR01
+
+‘V’ – Preço dos Itens da Ordem de Vendas;
+V;0001;10;10.00
+
+‘P’ – Parceiros da Ordem de Vendas;
+P;0001;EO;731

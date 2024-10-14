@@ -1,0 +1,3 @@
+Estou fazendo um case para um vaga de trabalho na empresa e vou precisar da sua ajuda.
+
+Irei lhe passar as informações sobre o case dividindo em partes e quando eu der a instrução "Começar o Case" quero que me instrua sobre os passos a serem realizados dividindo em passos descritivos e esperando que eu confirme que tudo funcionou corretamente a cada passo.

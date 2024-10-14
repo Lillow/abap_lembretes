@@ -1,0 +1,8 @@
+Tela de seleção
+
+O programa deve ter o seguinte parâmetro de tela:
+
+Nome do Programa	ZIXX_INTERFACES_SALESTOP
+Descrição		Tipo de Dado		Valor Padrão	Obrig?		Tipo de Seleção		Nome Técnico		Ajuda de Busca
+Nome do arquivo		STRING			N/A		Sim		PARAMETERS		P_ARQ			Sim
+

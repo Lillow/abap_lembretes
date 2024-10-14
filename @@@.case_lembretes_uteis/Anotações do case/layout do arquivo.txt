@@ -1,0 +1,53 @@
+Layout do arquivo
+Arquivo simples, cujo a extensão pode ser TXT ou CSV.
+Os campos estarão separados pelo caracter “;”.
+O arquivo possuirá o seguinte layout: 
+
+
+H;001;ORB;BR10;10;10;90010
+I;001;10;2;1.000;ST;BR01
+V;001;10;10.00
+P;001;EO;731
+
+Segue o detalhamento de cada tipo de linha do arquivo e a sugestão de declaração de cada tabela interna.
+
+Cada Ordem de vendas sempre terá pelo menos 1 identificador “H”
+
+Seção 		Descrição		Nome Técnico	Atributo Técnico	Exemplo
+Cabeçalho	Identificador		IDENT		CHAR1			H
+Cabeçalho	Agrupador		AGRUPADOR	CHAR4			0001
+Cabeçalho	Tipo do Doc. de vendas	DOC_TIPO	CHAR4			ORB
+Cabeçalho	Qrg. De vendas		ORG_VENDAS	CHAR4			BR10
+Cabeçalho	Canal de distribuição	CANAL		CHAR2			10
+Cabeçalho	Setor de Atividade	SETOR		CHAR2			10
+Cabeçalho	ID Externo - Legado	EXT_PEDIDO	CHAR10			90010
+
+
+Podemos ter mais de 1 item para cada Identificador “H - Cabeçalho”
+
+Seção 		Descrição			Nome Técnico	Atributo Técnico	Exemplo
+Itens		Identificador			IDENT		CHAR1			I
+Itens		Agrupador			AGRUPADOR	CHAR4			0001
+Itens		Item do comuemto de vendas	POSICAO		CHAR6			10
+Itens		Material			MATERIAL	CHAR18			2
+Itens		Quantidade			QUANTIDADE	CHAR30			1.000
+Itens		Unidade de medida		UNID_MEDIDA	CHAR3			ST
+Itens		Planta				PLANTA		CHAR4			BR01
+
+
+Sempre teremos uma relação de 1:1 com o identificador “I - Item”
+
+Seção 		Descrição			Nome Técnico	Atributo Técnico	Exemplo
+Preços		Identificador			IDENT		CHAR1			V
+Preços		Agrupador			AGRUPADOR	CHAR4			0001
+Preços		Item do comuemto de vendas	POSICAO		CHAR6			10
+Preços		Preço				PRECO		CHAR30			10.00
+
+
+Sempre teremos no máximo 1 parceiro para cada identificador “H”
+
+Seção 			Descrição		Nome Técnico	Atributo Técnico	Exemplo
+Parceiros		Identificador		IDENT		CHAR1			P
+Parceiros		Agrupador		AGRUPADOR	CHAR4			0001
+Parceiros		Tipo de parceiro	TIPO		CHAR3			EO
+Parceiros		Cod. do cliente		CLIENTE		CHAR10			731

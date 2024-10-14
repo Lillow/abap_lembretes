@@ -1,0 +1,25 @@
+Compreensão do Cenário Atual
+
+Estude o funcionamento atual da Merveilleuse e como as vendas B2B são geridas.
+Familiarize-se com a plataforma SalesTop e o SAP S/4Hana, focando nas limitações da integração.
+Identificação dos Requisitos Funcionais
+
+Integração das Ordens de Vendas:
+Definir como os arquivos simples serão recebidos da SalesTop.
+Especificar o formato dos arquivos (CSV, TXT, etc.) e o conteúdo necessário (ex.: ID do pedido, produtos, quantidades, etc.).
+Descrever o processo de importação dos dados para o sistema SAP S/4Hana.
+Geração de Relatório:
+Definir quais informações precisam estar no log de execuções (ex.: data, hora, status da execução, erros encontrados).
+Determinar a periodicidade da geração do relatório e o formato (PDF, Excel, etc.).
+Definição das Restrições e Considerações
+
+Levantar quaisquer limitações técnicas ou operacionais que possam impactar a implementação (ex.: restrições de tempo, recursos).
+Considerar a segurança e a privacidade dos dados ao lidar com informações de vendas.
+Criação de um Documento de Requisitos Funcionais
+
+Documentar todos os requisitos identificados de forma clara e organizada.
+Incluir diagramas ou fluxogramas, se necessário, para melhor visualização dos processos.
+Revisão e Validação com Stakeholders
+
+Apresentar o documento aos usuários do setor comercial e outras partes interessadas para validação.
+Coletar feedback e realizar ajustes conforme necessário.
